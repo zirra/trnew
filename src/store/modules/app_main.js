@@ -8,7 +8,8 @@ const state = {
   userName: getUser(),
   loginErr: null,
   loginErrMsg: null,
-  authorized: false
+  authorized: false,
+  curError: null
 }
 
 const mutations = {
@@ -28,6 +29,9 @@ const mutations = {
   },
   setUserName (state, name) {
     state.userName = name
+  },
+  throwError (state, err) {
+    state.curError = err
   }
 }
 
@@ -48,7 +52,6 @@ const actions = {
   login ({commit}, user) {
     api.rawPost('/v1/user/login', user)
     .then( response => {
-      console.log(response)
       let token = response.data.token
       storage.storeValue('token', token)
       storage.storeValue('user', response.data.user)
@@ -77,7 +80,8 @@ const getters = {
   authorized: state => state.authorized,
   loginErr: state => state.loginErr,
   loginErrMsg: state => state.loginErrMsg,
-  userName: state => state.userName
+  userName: state => state.userName,
+  curError: state => state.curError
 }
 
 export default {
@@ -89,7 +93,11 @@ export default {
 
 function getUser () {
   if(storage.getValue('user')) {
-    return JSON.parse(storage.getValue('user'))
+    try {
+      return JSON.parse(storage.getValue('user'))
+    } catch (err) {
+      return null
+    }
   } else {
     return null
   }

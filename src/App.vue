@@ -2,16 +2,26 @@
   <div id="app">
     <modal-view v-if="modalActive"/>
     <div id="nav">
-      <p>{{theDate}} - {{userType}} - {{userName}} - {{authorized}}</p>
+      <p v-if="!authorized">{{theDate}} - {{authorized}}</p>
+      <div v-else>
+        Welcome, {{userName}} {{theDate}}
+      </div>
       <br/>
       <p>
-        <router-link to="/">Home</router-link> |
+        <router-link to="/">Home</router-link>&nbsp;
+        <span  v-if="!authorized">
+        <router-link to="/signup">Signup</router-link>&nbsp;
+        </span>
+        <span v-if="authorized">
+        <router-link to="/settings">Settings</router-link>&nbsp;
+        </span>
         <router-link to="/about">About</router-link>
       </p>
     </div>
-    <router-view/>
+    <div class="content-block">
+      <router-view/>
+    </div>
     <simulator-view />
-    
   </div>
 </template>
 
@@ -48,7 +58,7 @@ export default {
 <style>
 html, body { width: 100%; height: 100%;}
 * { padding: 0; margin: 0}
-* {padding: 0; margin: 0; box-sizing: border-box;}
+* { padding: 0; margin: 0; box-sizing: border-box; }
 
 .centered { text-align: center; }
 .lefted { text-align: left; }
@@ -102,7 +112,7 @@ select {
   color: #404040;
 }
 
-input:focus { 
+input:focus {
   border: 0px;
   outline: none;
   background-color: #eee;
@@ -132,5 +142,27 @@ input:focus {
 .btn {
   background-color: rgba(255, 0, 0, 1);
   color: #fff;
+}
+
+.profile {
+  text-align: center;
+  width: 100%;
+  background-color: #2c3e50;
+}
+
+.profile-hero {
+  margin: 0px auto;
+  width: 100%;
+}
+
+.profile-hero img {
+  width: 92%;
+  padding: 4%;
+  border-radius: 50%;
+}
+
+.content-block {
+  width: 94%;
+  margin: 0px auto;
 }
 </style>

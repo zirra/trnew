@@ -35,7 +35,8 @@ export default {
 }
 
 .modal-content {
-  width: 50%;
+  width: 96%;
+  max-width: 480px;
   margin: 0px auto;
   background-color: #fff;
 }

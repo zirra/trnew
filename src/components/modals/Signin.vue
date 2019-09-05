@@ -75,6 +75,6 @@ export default {
 
 .sub {
   margin: 0px auto;
-  width: 320px;
+  width:100%;
 }
 </style>
